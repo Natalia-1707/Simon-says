@@ -67,7 +67,7 @@ mainDiv.append(keyboardDiv);
 document.body.append(mainDiv);
 
 // STARTING GAME //
-
+let levelSelected = 'Easy';
 let gameBoardDiv = document.createElement('div');
 gameBoardDiv.classList.add('game-board-div');
 document.body.append(gameBoardDiv);
@@ -75,6 +75,9 @@ gameBoardDiv.style.display = 'none';
 startBtn.addEventListener('click', () => {
     mainDiv.style.display = 'none';
     gameBoardDiv.style.display = 'flex';
+    let sequence = generateSymbols(levelSelected);
+    createTypeFields();
+    simulatingTyping(sequence);
 });
 
 // game options on game board //
@@ -132,7 +135,7 @@ gameOptionsDiv.append(newGameBtn);
 let typeFieldDiv = document.createElement('div');
 typeFieldDiv.classList.add('type-field-div');
 
-let currentRound = 1;
+let currentRound = 5;
 let maxRounds = 5;
 let initialTypeFields = 2;
 let typeFieldsIncrement = 2;
@@ -167,11 +170,67 @@ gameBoardDiv.append(gameOptionsDiv);
 // Event listener for select //
 
 select.addEventListener('change', (event) => {
-    let levelSelected = event.target.value;
+    levelSelected = event.target.value;
     makeKeyboard(levelSelected);
     updateGameBoardKeyboard(levelSelected);
     levelIndicator.textContent = `Level: ${levelSelected}`;
 });
 
 // Simulating the typing //
+function generateSymbols(level) {
+    let symbols = [];
+    if (level === 'Easy') {
+        symbols = easySymbols;
+    }
+    if (level === 'Medium') {
+        symbols = mediumSymbols;
+    }
+    if (level === 'Hard') {
+        symbols = hardSymbols;
+    }
+    console.log(symbols);
+    let sequence = [];
+    let typeFieldsCount = initialTypeFields + (currentRound - 1) * typeFieldsIncrement;
+    for(let i = 0; i < typeFieldsCount; i++) {
+        let randomSymbol = Math.floor(Math.random() * symbols.length);
+        sequence.push(symbols[randomSymbol]);
+    }
+    console.log(sequence);
+    return sequence;
+}
 
+let sequence = generateSymbols('Medium');
+function simulatingTyping(sequence) {
+    let typeFields = document.querySelectorAll('.type-field');
+    let time = 800;
+    let symbolBtns = document.querySelectorAll('.symbol-button');
+    symbolBtns.forEach((button) => {
+        button.classList.remove('symbol-highlited');
+    });
+    sequence.forEach((symbol, index) => {
+        setTimeout(() => {
+            typeFields[index].textContent = symbol;
+            symbolsHighlited(symbol);
+        }, time);
+        time += 800;
+    })
+    setTimeout(() => {
+        typeFields.forEach(field => {
+            field.textContent = '';
+        });
+    }, time);
+}
+
+function symbolsHighlited(symbol) {
+    let symbolBtns = document.querySelectorAll('.symbol-button');
+    console.log(symbolBtns);
+    let lastSymbol = null;
+    symbolBtns.forEach((button) => {
+        if (button.textContent == symbol) {
+            button.classList.add('symbol-highlited');
+            setTimeout(() => {
+                button.classList.remove('symbol-highlited');
+            }, 800);
+        }
+    });
+}
