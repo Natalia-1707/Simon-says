@@ -1,0 +1,200 @@
+.allura-regular {
+    font-family: "Allura", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+}
+
+/* Initial game screen */
+
+.main-div, 
+.game-board-div {
+    height: auto;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    background-color: beige;
+}
+.main-div {
+    width: 70%;
+}
+.game-board-div {
+    width: 80%
+}
+.main-div {
+    flex-direction: column;
+}
+.game-board-div {
+    display: inline-flex;
+}
+.options-div {
+    width: 50%;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+    margin: auto;
+    background-color: antiquewhite;
+}
+.button-start {
+    width: 6.25rem;
+    height: 6.25rem;
+    background-color: aqua;
+    margin: auto;
+    font-family: "Allura", serif;
+    font-size: 2rem;
+    cursor: pointer;
+}
+.button-start:hover {
+    background-color: blueviolet;
+}
+.dropdown-div {
+    width: 6.25rem;
+    height: 6.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: aqua;
+    margin: auto;
+    font-family: "Allura", serif;
+    font-size: 2rem;
+}
+.dropdown {
+    width: 100%;
+    height: auto;
+}
+.select {
+    width: 100%;
+    height: 3rem;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+/* virtual keyboard */
+
+.keyboard {
+    width: 70%;
+    height: auto;
+    margin: auto;
+    margin-top: 70px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    background-color: antiquewhite;
+}
+.symbol-button {
+    width: 3.125rem;
+    height: 3.125rem;
+    background-color: aqua;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 2rem;
+    cursor: pointer;
+}
+.symbol-button:hover {
+    border-color: blueviolet;
+    box-shadow: 0 0 0.5em blueviolet;
+}
+
+/* Starting game */
+.game-options-div {
+    width: 40%;
+    height: auto;
+    margin: 0.625rem 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 3.125rem;
+}
+.level-indicator,
+.round-indicator {
+    width: auto;
+    height: auto;
+    margin: auto;
+    font-family: "Allura", serif;
+    font-size: 2rem;
+}
+.game-board {
+    width: 60%;
+    height: auto;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    background-color: aquamarine;
+}
+.game-board-keyboard {
+    width: 100%;
+    height: auto;
+    margin: 0;
+    margin-top: 0;
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    background-color: antiquewhite;
+}
+.cloned-keyboard {
+    width: 100%;
+    height: auto;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    background-color: antiquewhite;
+}
+.button-repeat,
+.button-new-game {
+    width: 10rem;
+    height: 3rem;
+    margin: auto;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+.button-repeat:hover,
+.button-new-game:hover {
+    background-color: blue;
+}
+.player-input {
+    width: 80%;
+    height: 3rem;
+    margin: auto;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.2rem;
+}
+.type-field-div {
+    width: auto;
+    height: auto;
+    margin: auto;
+    margin: 0.625rem;
+    margin-bottom: 0;
+    display: inline-flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+.type-field {
+    width: 3.125rem;
+    height: 3.125rem;
+    background-color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 2rem;
+}
