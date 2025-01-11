@@ -16,6 +16,9 @@ html, body {
 
 body {
     display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
 }
 
 /* Initial game screen */
@@ -146,6 +149,57 @@ body {
     font-family: "Allura", serif;
     font-size: 2rem;
 }
+.again-message-div {
+    width: auto;
+    height: auto; 
+    position: absolute;
+    padding: 1.25rem;
+    background-color: aqua;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.5rem;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    display: none;
+}
+.lost-div {
+    width: 40%;
+    height: auto;
+    padding: 2rem;
+    flex-direction: column;
+    gap: 3rem;
+    justify-content: center;
+    margin: auto;
+    background-color: beige;
+    display: none;
+}
+.lost-message {
+    width: auto;
+    height: auto;
+    text-align: center;
+    font-size: 2rem;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.cancel-button {
+    position: absolute;
+    right: 0.5rem;
+    top: 15%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: white;
+    border: none;
+    background-color: transparent;
+}
+.cancel-button i {
+    color: #333;
+    transition: color 0.3s;
+}
+
+.cancel-button:hover i {
+    color: red;
+}
 .game-board {
     width: 60%;
     height: auto;
@@ -180,7 +234,8 @@ body {
     background-color: antiquewhite;
 }
 .button-repeat,
-.button-new-game {
+.button-new-game,
+.button-next {
     width: 10rem;
     height: 3rem;
     margin: auto;
@@ -189,7 +244,8 @@ body {
     cursor: pointer;
 }
 .button-repeat:hover,
-.button-new-game:hover {
+.button-new-game:hover,
+.button-next:hover {
     background-color: blue;
 }
 .button-repeat:disabled,
@@ -200,11 +256,12 @@ body {
     cursor: not-allowed;
 }
 .player-input {
-    width: 80%;
+    width: 70%;
+    text-align: center;
     height: 3rem;
     margin: auto;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 1.2rem;
+    font-size: 2rem;
 }
 .type-field-div {
     width: auto;

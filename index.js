@@ -111,6 +111,44 @@ let playerInput = document.createElement('input');
 playerInput.setAttribute('readonly', true);
 playerInput.classList.add('player-input');
 
+// messages //
+
+let messageTryAgain = document.createElement('div');
+messageTryAgain.classList.add('again-message-div');
+messageTryAgain.textContent = 'Oooops, incorrect.. try again';
+
+let cancelBtn = document.createElement('button');
+cancelBtn.classList.add('cancel-button');
+let icon = document.createElement('i');
+icon.classList.add('fa-solid', 'fa-xmark');
+cancelBtn.append(icon);
+
+cancelBtn.addEventListener ("click", () => {
+    messageTryAgain.style.display = 'none';
+})
+
+messageTryAgain.append(cancelBtn);
+document.body.append(messageTryAgain);
+
+
+
+
+let lostDiv = document.createElement('div');
+lostDiv.classList.add('lost-div');
+
+let lostMessageDiv = document.createElement('div');
+lostMessageDiv.classList.add('lost-message');
+lostMessageDiv.textContent = 'Sorry...you lost';
+
+let newGameBtn2 = document.createElement('button');
+newGameBtn2.classList.add('button-new-game');
+newGameBtn2.textContent = 'Once Again?';
+
+lostDiv.append(lostMessageDiv);
+lostDiv.append(newGameBtn2);
+document.body.append(lostDiv);
+
+
 // game board //
 
 let gameBoard = document.createElement('div');
@@ -183,11 +221,14 @@ createTypeFields();
 
 let symbolsToPrint = [];
 let incorrectAttempts = 0;
+let allPlayerTypings = [];
 
 function virtualKeyboardInput(symbol) {
     if (playerTyping.length < symbolsToPrint.length) {
         let typeFields = document.querySelectorAll('.type-field');
         let currentField = typeFields[playerTyping.length];
+        allPlayerTypings.push(symbol);
+        playerInput.value = allPlayerTypings.join(' ');
         if (symbol == symbolsToPrint[playerTyping.length]) {
             currentField.textContent = symbol;
             playerTyping.push(symbol);
@@ -204,14 +245,18 @@ function virtualKeyboardInput(symbol) {
                 currentField.textContent = symbol;
                 currentField.classList.add('wrong-input');
                 setTimeout(() => {
-                    alert('Sorry, you lost');
+                    lostDiv.style.display = 'flex';
+                    gameBoardDiv.style.display = 'none';
                 }, 100);
                 return;
             }
             if (0 < incorrectAttempts <= 2) {
-                console.log('Oooops, incorrect.. try again');
+                messageTryAgain.style.display = 'block';
                 currentField.classList.add('wrong-input');
                 console.log('Player types:', playerTyping); 
+                setTimeout(() => {
+                    messageTryAgain.style.display = 'none';
+                }, 2000);
                 setTimeout(() => {
                     currentField.textContent = '';
                     currentField.classList.remove('wrong-input');
@@ -219,7 +264,9 @@ function virtualKeyboardInput(symbol) {
                 return;
             }
         }
+        playerInput.value = allPlayerTypings.join(' ');
     }
+
     if (playerTyping.length === symbolsToPrint.length) {
         checkSymbols();
     }
@@ -269,17 +316,28 @@ function checkSymbols() {
             typeFields[i].textContent = symbolsToPrint[i];
         }
         setTimeout(() => {
+            gameBoardSymbolBtn.forEach(button => {
+                button.disabled = true;
+            });
             alert('Correct! Proceed to next round.');
-            nextRound();
+            let nextBtn = document.createElement('button');
+            nextBtn.classList.add('button-next');
+            nextBtn.textContent = 'Next';
+            nextBtn.addEventListener('click', () => {
+                nextRound();
+                nextBtn.replaceWith(repeatBtn);
+                repeatBtn.disabled = true;
+                repeatBtn.textContent = 'Repeat the sequence';
+            });
+            repeatBtn.replaceWith(nextBtn);
         }, 500);
     } else {
         incorrectAttempts++;
         if (incorrectAttempts >= 2) {
-            alert('Sorry, you lost');
-            /*endGame(); // Завершаем игру*/
+            lostDiv.style.display = 'flex';
+            gameBoardDiv.style.display = 'none';
         } else if (0 < incorrectAttempts <= 2) {
-            alert('Oooops, incorrect.. try again');
-            /*resetRound(); // Перезапускаем раунд*/
+            messageTryAgain.style.display = 'none';
         }
     }
 }
@@ -287,9 +345,9 @@ function checkSymbols() {
 gameBoard.append(typeFieldDiv);
 gameBoard.append(gameBoardKeyboard);
 
+
 gameBoardDiv.append(gameBoard);
 gameBoardDiv.append(gameOptionsDiv);
-
 
 // Event listener for select //
 
@@ -312,7 +370,11 @@ function buttonDisabled() {
 }
 function buttonEnabled() {
     newGameBtn.disabled = false;
-    repeatBtn.disabled = false;
+    if (repeatBtnClicks === 0) {
+        repeatBtn.disabled = false;
+    } else {
+        repeatBtn.disabled = true;
+    }
     gameBoardSymbolBtn.forEach(button => {
         button.disabled = false;
     });
@@ -381,12 +443,51 @@ function symbolsHighlited(symbol) {
     });
 }
 
+// buttons on gameboard //
+newGameBtn.addEventListener('click', () => {
+    startNewGame();
+})
+newGameBtn2.addEventListener('click', () => {
+    lostDiv.style.display = 'none';
+    startNewGame();
+})
+
+function startNewGame() {
+    gameBoardDiv.style.display = 'none';
+    mainDiv.style.display = 'flex';
+    currentRound = 1;
+    roundIndicator.textContent = `Round: ${currentRound}`;
+    gameBoardSymbolBtn = [];
+    incorrectAttempts = 0;
+    repeatBtnClicks = 0;
+    allPlayerTypings = [];
+    playerInput.value = '';
+}
+
+let repeatBtnClicks = 0;
+repeatBtn.addEventListener('click', () => {
+    repeatBtnClicks ++;
+    simulatingTyping(symbolsToPrint);
+    playerTyping = [];
+    allPlayerTypings = [];
+    playerInput.value = '';
+    let typeFields = document.querySelectorAll('.type-field');
+    typeFields.forEach((field) => {
+        field.textContent = '';
+        field.classList.remove('correct-input', 'wrong-input');
+    });
+    repeatBtn.disabled = true;
+})
+
 function nextRound() {
     if (currentRound < maxRounds) {
         currentRound++;
         roundIndicator.textContent = `Round: ${currentRound}`;
         gameBoardSymbolBtn = [];
         incorrectAttempts = 0;
+        repeatBtnClicks = 0;
+        allPlayerTypings = [];
+        playerInput.value = '';
         createTypeFields();
         generateSymbols(levelSelected);
         simulatingTyping(symbolsToPrint);
