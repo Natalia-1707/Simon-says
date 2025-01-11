@@ -97,20 +97,36 @@ body {
     gap: 15px;
     background-color: antiquewhite;
 }
-.symbol-button {
+.symbol-button,
+.symbol-button-gameboard {
     width: 3.125rem;
     height: 3.125rem;
     background-color: aqua;
+    border: 2px solid transparent; 
     font-family: Arial, Helvetica, sans-serif;
     font-size: 2rem;
+}
+.symbol-button {
+    cursor: not-allowed;
+}
+.symbol-button-gameboard {
     cursor: pointer;
 }
-.symbol-button:hover {
+.symbol-button-gameboard:disabled:hover {
+    border-color: transparent;
+    box-shadow: none;
+    cursor: not-allowed;
+}
+.symbol-button-gameboard-keydown,
+.symbol-button-gameboard:hover {
     border-color: blueviolet;
     box-shadow: 0 0 0.5em blueviolet;
 }
 .symbol-highlited {
     box-shadow: 0 0 0.5em rgb(206, 111, 8);
+    border-color: rgb(206, 111, 8);
+    color: black;
+    cursor: not-allowed;
 }
 /* Starting game */
 .game-options-div {
@@ -176,6 +192,13 @@ body {
 .button-new-game:hover {
     background-color: blue;
 }
+.button-repeat:disabled,
+.button-new-game:disabled {
+    background-color: grey;
+    color: grey;
+    border-color: grey;
+    cursor: not-allowed;
+}
 .player-input {
     width: 80%;
     height: 3rem;
@@ -202,4 +225,12 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.wrong-input {
+    background-color: #ffcccc;
+    box-shadow: 0 0 0.5em red;
+}
+.correct-input {
+    background-color: #9aec77;
+    box-shadow: 0 0 0.5em green;
 }
