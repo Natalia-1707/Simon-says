@@ -1,7 +1,23 @@
+// fonts //
+let fontLink = document.createElement('link');
+fontLink.rel = 'stylesheet';
+fontLink.href = 'https://fonts.googleapis.com/css2?family=Allura&family=Jost:ital,wght@0,100..900;1,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playwrite+AU+SA:wght@100..400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap';
+document.head.appendChild(fontLink);
+
+// favicon //
+let faviconLink = document.createElement('link');
+faviconLink.rel = 'shortcut icon';
+faviconLink.href = 'img/favicon-32x32.png';
+document.head.appendChild(faviconLink);
+
+// CSS //
+let styleLink = document.createElement('link');
+styleLink.rel = 'stylesheet';
+styleLink.href = 'style.css';
+document.head.appendChild(styleLink);
+
+
 // INITIAL GAME SCREEN //
-
-let allowedSymbols = [];
-
 
 let mainDiv = document.createElement('div');
 mainDiv.classList.add('main-div');
@@ -35,6 +51,8 @@ dropdown.append(select);
 dropdownDiv.append(dropdown);
 
 // virtual keyboard //
+let allowedSymbols = [];
+
 
 let keyboardDiv = document.createElement('div');
 keyboardDiv.classList.add('keyboard');
@@ -75,6 +93,41 @@ document.body.append(mainDiv);
 
 // STARTING GAME //
 
+// music //
+let clickMusic = document.createElement('audio');
+clickMusic.src = 'music/click.mp3';
+clickMusic.setAttribute('preload', 'auto');
+clickMusic.setAttribute('controls', 'none');
+clickMusic.style.display = 'none';
+document.body.appendChild(clickMusic);
+
+let nextRoundMusic = document.createElement('audio');
+nextRoundMusic.src = 'music/nextround.mp3';
+nextRoundMusic.setAttribute('preload', 'auto');
+nextRoundMusic.setAttribute('controls', 'none');
+nextRoundMusic.style.display = 'none';
+document.body.appendChild(nextRoundMusic);
+
+function playClick() {
+    clickMusic.pause();
+    clickMusic.currentTime = 0;
+    clickMusic.play()
+}
+function stopClick() {
+    clickMusic.pause();
+    clickMusic.currentTime = 0;
+}
+
+function playNextRound() {
+    nextRoundMusic.play();
+}
+
+function stopNextRound() {
+    nextRoundMusic.pause();
+    nextRoundMusic.currentTime = 0;
+}
+
+// start game //
 let levelSelected = 'Easy';
 getAllowedSymbols(levelSelected);
 let gameBoardDiv = document.createElement('div');
@@ -211,7 +264,7 @@ function updateGameBoardKeyboard(level) {
         gameBoardSymbolBtn.push(symbolBtn);
         gameBoardKeyboard.append(symbolBtn);
         symbolBtn.addEventListener('click', () => {
-            console.log(symbol);
+            playClick();
             virtualKeyboardInput(symbol)
         });
     })
@@ -318,7 +371,9 @@ function getAllowedSymbols(level) {
     }
     console.log('Allowed symbols', allowedSymbols);
 }
+
 let isSimulating = false;
+
 function physicalKeyboardInput(event) {
     if (isSimulating) {
         return;
@@ -335,6 +390,7 @@ function physicalKeyboardInput(event) {
     console.log(symbol);
     console.log('allowedSymbols', allowedSymbols);
     if (allowedSymbols.includes(symbol)) {
+        playClick();
         virtualKeyboardInput(symbol);
         let symbolBtn = Array.from(document.querySelectorAll('.symbol-button-gameboard')).find(button => {
             let buttonValue = button.textContent.trim();
@@ -373,6 +429,7 @@ function checkSymbols() {
             nextBtn.classList.add('button-next');
             nextBtn.textContent = 'Next';
             nextBtn.addEventListener('click', () => {
+                stopNextRound();
                 nextRound();
                 nextBtn.replaceWith(repeatBtn);
                 repeatBtn.disabled = true;
@@ -387,6 +444,7 @@ function checkSymbols() {
                 }
             });
             if (currentRound === maxRounds) {
+                playNextRound();
                 wonDiv.style.display = 'flex';
                 repeatBtn.disabled = true;
             }
@@ -394,6 +452,7 @@ function checkSymbols() {
                 gameBoardSymbolBtn.forEach(button => {
                     button.disabled = true;
                 });
+                playNextRound();
                 messageWon.style.display = 'block';
                 repeatBtn.replaceWith(nextBtn);
             }

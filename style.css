@@ -38,14 +38,14 @@ body {
     width: 70%;
 }
 .game-board-div {
-    width: 80%;
+    width: 90%;
     border: 0.3rem solid rgb(255, 153, 204);
 }
 .game-board-div {
     display: inline-flex;
 }
 .options-div {
-    width: 70%;
+    width: 100%;
     height: auto;
     display: flex;
     justify-content: space-between;
@@ -141,7 +141,9 @@ body {
     color: rgb(153, 0, 76);
     cursor: not-allowed;
 }
+
 /* Starting game */
+
 .game-options-div {
     width: 40%;
     height: auto;
@@ -172,47 +174,27 @@ body {
     font-family: "Allura", serif;
     color: rgb(0, 0, 0);
     font-size: 2rem;
-    top: 10%;
+    top: 20%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%) rotateX(10deg);
     z-index: 1;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3), 0 4px 6px rgba(0, 0, 0, 0.2); /* 3D-тени */
+    perspective: 1000px;
     display: none;
 }
 .again-message-div {
-    width: 25%;
+    width: auto;
 }
 .won-message-div {
-    width: 20%;
+    width: auto;
 }
 .lost-div {
     width: 30%;
 }
-/*.lost-div,
-.won-div {
-    width: 40%;
-    height: auto;
-    padding: 2rem;
-    flex-direction: column;
-    gap: 3rem;
-    justify-content: center;
-    margin: auto;
-    border: 0.3rem solid rgb(255, 153, 204);
-    border-radius: 1rem;
-    background-color: rgb(255, 255, 255);
-    display: flex;
-}
-.lost-message,
-.won-message {
-    width: auto;
-    height: auto;
-    text-align: center;
-    font-size: 3rem;
-    font-family: "Allura", serif;
-}*/
 .cancel-button {
     position: absolute;
     right: 0.5rem;
-    top: 25%;
+    top: 15%;
     transform: translateY(-50%);
     font-size: 1.2rem;
     cursor: pointer;
@@ -305,16 +287,15 @@ body {
     margin: 0.625rem;
     margin-bottom: 0;
     display: inline-flex;
-    gap: 15px;
+    gap: 0.9rem;
 }
 .type-field {
     width: 3.5rem;
     height: 3.5rem;
     background-color: white;
     border-radius: 1rem;
-    font-family: "Allura", serif;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 2.5rem;
-    font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -327,3 +308,193 @@ body {
     background-color: rgb(153, 255, 153);
     box-shadow: 0 0 0.5em green;
 }
+
+/* MEDIA */
+
+@media screen and (max-width: 1240px) {
+    .player-input {
+        font-size: 1.5rem;
+    }
+}
+
+
+@media screen and (max-width: 1100px) {
+    .game-board {
+        width: 75%;
+        margin: 0;
+        padding: 0;
+    }
+    .player-input {
+        font-size: 1.2rem;
+    }
+    .symbol-button,
+    .symbol-button-gameboard {
+        width: 3rem;
+        height: 3rem;
+    }
+    .type-field {
+        width: 3rem;
+        height: 3rem;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .game-board-div {
+        height: auto;
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: center;
+        margin: auto;
+        border-radius: 1rem;
+        gap: 1.5rem;
+    }
+    .game-board {
+        width: 100%;
+        border-top-left-radius: 1rem;
+        border-bottom-left-radius: 1rem;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+   .game-options-div {
+        width: 100%;
+        height: auto;
+        margin: 0.625rem 0;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: center;
+        gap: 0.1rem
+    }
+    .player-input {
+        width: 30%;
+        font-size: 1.1rem;
+    }
+    .type-field-div {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.7rem;
+    }
+    .type-field {
+        font-size: 2.0rem;
+    }
+    .level-indicator,
+    .round-indicator {
+        font-size: 1.7rem;
+    }
+    .button-next,
+    .button-repeat,
+    .button-new-game {
+        width: 7rem;
+        height: 2.8rem;
+        font-size: 0.7rem;
+        font-weight: bold;
+    }
+}
+@media screen and (max-width: 768px) {
+    .button-start {
+        width: 7rem;
+        height: 4rem;
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+    .game-options-div {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+    }
+    .level-indicator,
+    .round-indicator {
+        font-size: 1.7rem;
+    }
+    .button-next,
+    .button-repeat,
+    .button-new-game {
+        width: 7rem;
+        height: 2.8rem;
+        font-size: 0.7rem;
+        font-weight: bold;
+    }
+    .player-input {
+        width: 30%;
+        font-size: 0.8rem;
+    }
+    .game-board-keyboard {
+        gap: 0.5rem;
+    }
+    .again-message-div,
+    .won-message-div,
+    .lost-div,
+    .won-div {
+        font-size: 1.7rem;
+    }
+}
+@media screen and (max-width: 600px) {
+    .symbol-button,
+    .symbol-button-gameboard {
+        width: 2.8rem;
+        height: 2.8rem;
+    }
+    .type-field {
+        width: 2.3rem;
+        height: 2.3rem;
+    }
+}
+@media screen and (max-width: 560px) {
+    .dropdown-div {
+        width: 7rem;
+    }
+    .dropdown {
+        width: 80%;
+    }
+    .dropdown-div {
+        width: 7rem;
+        font-size: 1.5rem;
+    }
+    .select {
+        width: 80%;
+        font-size: 1rem;
+    }
+    .player-input {
+        width: 40%;
+        font-size: 0.7rem;
+    }
+    .again-message-div,
+    .won-message-div,
+    .lost-div,
+    .won-div {
+        margin-top: 1rem;
+        padding: 2rem 1rem;
+    }
+}
+@media screen and (max-width: 450px) {
+    .again-message-div,
+    .won-message-div,
+    .lost-div,
+    .won-div {
+        font-size: 1.3rem;
+    }
+    .cancel-button {
+        font-size: 1rem;
+    }
+    .again-message-div,
+    .won-message-div,
+    .lost-div,
+    .won-div {
+        top: 50%;
+        left: 50%;
+    }
+}
+@media screen and (max-width: 360px) {
+    .player-input {
+        width: 35%;
+        font-size: 0.7rem;
+    }
+    .again-message-div,
+    .won-message-div,
+    .lost-div,
+    .won-div {
+        font-size: 1.3rem;
+    }
+}
+
