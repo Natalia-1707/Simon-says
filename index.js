@@ -16,6 +16,8 @@ startBtn.textContent = 'Start game';
 
 let dropdownDiv = document.createElement('div');
 dropdownDiv.classList.add('dropdown-div');
+let dropdownText = document.createElement('div');
+dropdownText.textContent = 'Choose level';
 let dropdown = document.createElement('form');
 dropdown.classList.add('dropdown');
 let select = document.createElement('select');
@@ -28,6 +30,7 @@ level.forEach(text => {
     option.textContent = text;
     select.append(option);
 })
+dropdownDiv.append(dropdownText);
 dropdown.append(select);
 dropdownDiv.append(dropdown);
 
@@ -78,12 +81,20 @@ let gameBoardDiv = document.createElement('div');
 gameBoardDiv.classList.add('game-board-div');
 document.body.append(gameBoardDiv);
 gameBoardDiv.style.display = 'none';
+
 startBtn.addEventListener('click', () => {
     mainDiv.style.display = 'none';
     gameBoardDiv.style.display = 'flex';
-    let sequence = generateSymbols(levelSelected);
+    gameBoardSymbolBtn = [];
+    incorrectAttempts = 0;
+    repeatBtnClicks = 0;
+    allPlayerTypings = [];
+    playerInput.value = '';
     createTypeFields();
-    simulatingTyping(sequence);
+    generateSymbols(levelSelected);
+    simulatingTyping(symbolsToPrint);
+    updateGameBoardKeyboard(levelSelected);
+    buttonDisabled();
 });
 
 // game options on game board //
@@ -130,7 +141,22 @@ cancelBtn.addEventListener ("click", () => {
 messageTryAgain.append(cancelBtn);
 document.body.append(messageTryAgain);
 
+let messageWon = document.createElement('div');
+messageWon.classList.add('won-message-div');
+messageWon.textContent = 'Well done! Go next?';
 
+let cancelBtn2 = document.createElement('button');
+cancelBtn2.classList.add('cancel-button');
+let icon2 = document.createElement('i');
+icon2.classList.add('fa-solid', 'fa-xmark');
+cancelBtn2.append(icon2);
+
+cancelBtn2.addEventListener ("click", () => {
+    messageWon.style.display = 'none';
+})
+
+messageWon.append(cancelBtn2);
+document.body.append(messageWon);
 
 
 let lostDiv = document.createElement('div');
@@ -138,15 +164,22 @@ lostDiv.classList.add('lost-div');
 
 let lostMessageDiv = document.createElement('div');
 lostMessageDiv.classList.add('lost-message');
-lostMessageDiv.textContent = 'Sorry...you lost';
+lostMessageDiv.textContent = 'Sorry...you lost. Start a new game';
 
-let newGameBtn2 = document.createElement('button');
-newGameBtn2.classList.add('button-new-game');
-newGameBtn2.textContent = 'Once Again?';
+let cancelBtn3 = document.createElement('button');
+cancelBtn3.classList.add('cancel-button');
+let icon3 = document.createElement('i');
+icon3.classList.add('fa-solid', 'fa-xmark');
+cancelBtn3.append(icon3);
 
+cancelBtn3.addEventListener ("click", () => {
+    lostDiv.style.display = 'none';
+})
+
+lostDiv.append(cancelBtn3);
 lostDiv.append(lostMessageDiv);
-lostDiv.append(newGameBtn2);
 document.body.append(lostDiv);
+
 
 
 // game board //
@@ -193,6 +226,7 @@ gameOptionsDiv.append(repeatBtn);
 gameOptionsDiv.append(newGameBtn);
 
 // type fields //
+
 let typeFieldDiv = document.createElement('div');
 typeFieldDiv.classList.add('type-field-div');
 
@@ -229,7 +263,7 @@ function virtualKeyboardInput(symbol) {
         let currentField = typeFields[playerTyping.length];
         allPlayerTypings.push(symbol);
         playerInput.value = allPlayerTypings.join(' ');
-        if (symbol == symbolsToPrint[playerTyping.length]) {
+        if (symbol === symbolsToPrint[playerTyping.length]) {
             currentField.textContent = symbol;
             playerTyping.push(symbol);
             currentField.classList.add('correct-input');
@@ -246,7 +280,7 @@ function virtualKeyboardInput(symbol) {
                 currentField.classList.add('wrong-input');
                 setTimeout(() => {
                     lostDiv.style.display = 'flex';
-                    gameBoardDiv.style.display = 'none';
+                    repeatBtn.disabled = true;
                 }, 100);
                 return;
             }
@@ -271,37 +305,53 @@ function virtualKeyboardInput(symbol) {
         checkSymbols();
     }
 }
-// !!!!!!!!!! //
+
 function getAllowedSymbols(level) {
     if (level === 'Easy') {
-        allowedSymbols = easySymbols.map(String);
+        allowedSymbols = easySymbols.map(Number);
     } else if (level === 'Medium') {
-        allowedSymbols = mediumSymbols.map(symbol => symbol.toLowerCase());
+        allowedSymbols = mediumSymbols.map(symbol => symbol.toUpperCase());
     } else if (level === 'Hard') {
         allowedSymbols = hardSymbols.map(symbol => {
-            return typeof symbol === 'string' ? symbol.toLowerCase() : String(symbol);
+            return typeof symbol === 'string' ? symbol.toUpperCase() : Number(symbol);
         });
     }
     console.log('Allowed symbols', allowedSymbols);
 }
+let isSimulating = false;
 function physicalKeyboardInput(event) {
-
-    let symbol = event.key;
+    if (isSimulating) {
+        return;
+    }
+    let symbol = String(event.key);
+    console.log(typeof symbol)
 
     if (event.key >= '0' && event.key <= '9') {
-        symbol = event.key;
+        symbol = Number(event.key);
     } else {
-        symbol = event.key.toLowerCase();
+        symbol = event.key.toUpperCase();
     }
 
     console.log(symbol);
     console.log('allowedSymbols', allowedSymbols);
     if (allowedSymbols.includes(symbol)) {
         virtualKeyboardInput(symbol);
-        let symbolBtns = document.querySelectorAll('.symbol-button-gameboard');
-        symbolBtns.forEach((button) => {
-        button.classList.add('symbol-button-gameboard-keydown');
+        let symbolBtn = Array.from(document.querySelectorAll('.symbol-button-gameboard')).find(button => {
+            let buttonValue = button.textContent.trim();
+
+            if (!isNaN(buttonValue)) {
+                buttonValue = Number(buttonValue);
+            }
+
+            return buttonValue === symbol;
         });
+
+        if (symbolBtn) {
+            symbolBtn.classList.add('symbol-button-gameboard-keydown');
+            setTimeout(() => {
+                symbolBtn.classList.remove('symbol-button-gameboard-keydown');
+            }, 500);
+        }
     } else {
         console.log("Not allowed symbol");
     }
@@ -319,7 +369,6 @@ function checkSymbols() {
             gameBoardSymbolBtn.forEach(button => {
                 button.disabled = true;
             });
-            alert('Correct! Proceed to next round.');
             let nextBtn = document.createElement('button');
             nextBtn.classList.add('button-next');
             nextBtn.textContent = 'Next';
@@ -329,13 +378,31 @@ function checkSymbols() {
                 repeatBtn.disabled = true;
                 repeatBtn.textContent = 'Repeat the sequence';
             });
-            repeatBtn.replaceWith(nextBtn);
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    let nextBtnOnPage = document.querySelector('.button-next');
+                    if (nextBtnOnPage) {
+                        nextBtnOnPage.click();
+                    }
+                }
+            });
+            if (currentRound === maxRounds) {
+                wonDiv.style.display = 'flex';
+                repeatBtn.disabled = true;
+            }
+            if (currentRound < maxRounds) {
+                gameBoardSymbolBtn.forEach(button => {
+                    button.disabled = true;
+                });
+                messageWon.style.display = 'block';
+                repeatBtn.replaceWith(nextBtn);
+            }
         }, 500);
     } else {
         incorrectAttempts++;
         if (incorrectAttempts >= 2) {
             lostDiv.style.display = 'flex';
-            gameBoardDiv.style.display = 'none';
+            repeatBtn.disabled = true;
         } else if (0 < incorrectAttempts <= 2) {
             messageTryAgain.style.display = 'none';
         }
@@ -404,6 +471,7 @@ function generateSymbols(level) {
 }
 
 function simulatingTyping(sequence) {
+    isSimulating = true;
     buttonDisabled();
     let typeFields = document.querySelectorAll('.type-field');
     let time = 800;
@@ -423,9 +491,9 @@ function simulatingTyping(sequence) {
             field.textContent = '';
         });
         buttonEnabled();
+        isSimulating = false;
     }, time);
 }
-
 
 function symbolsHighlited(symbol) {
     let symbolBtns = document.querySelectorAll('.symbol-button-gameboard');
@@ -444,16 +512,12 @@ function symbolsHighlited(symbol) {
 }
 
 // buttons on gameboard //
-newGameBtn.addEventListener('click', () => {
-    startNewGame();
-})
-newGameBtn2.addEventListener('click', () => {
-    lostDiv.style.display = 'none';
-    startNewGame();
-})
 
 function startNewGame() {
     gameBoardDiv.style.display = 'none';
+    messageWon.style.display = 'none';
+    lostDiv.style.display = 'none';
+    wonDiv.style.display = 'none';
     mainDiv.style.display = 'flex';
     currentRound = 1;
     roundIndicator.textContent = `Round: ${currentRound}`;
@@ -481,6 +545,7 @@ repeatBtn.addEventListener('click', () => {
 
 function nextRound() {
     if (currentRound < maxRounds) {
+        messageWon.style.display = 'none';
         currentRound++;
         roundIndicator.textContent = `Round: ${currentRound}`;
         gameBoardSymbolBtn = [];
@@ -495,3 +560,28 @@ function nextRound() {
         buttonDisabled();
     }
 }
+
+let wonDiv = document.createElement('div');
+wonDiv.classList.add('won-div');
+
+let wonMessageDiv = document.createElement('div');
+wonMessageDiv.classList.add('won-message');
+wonMessageDiv.textContent = "It's a win! Congrats! Want to try once again?";
+
+let cancelBtn4 = document.createElement('button');
+cancelBtn4.classList.add('cancel-button');
+let icon4 = document.createElement('i');
+icon4.classList.add('fa-solid', 'fa-xmark');
+cancelBtn4.append(icon4);
+
+cancelBtn4.addEventListener ("click", () => {
+    wonDiv.style.display = 'none';
+})
+
+wonDiv.append(cancelBtn4);
+wonDiv.append(wonMessageDiv);
+document.body.append(wonDiv);
+
+newGameBtn.addEventListener("click", () => {
+    startNewGame();
+})

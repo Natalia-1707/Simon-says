@@ -7,7 +7,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 html, body {
     height: 100%;
@@ -29,48 +28,57 @@ body {
     display: flex;
     justify-content: center;
     margin: auto;
-    background-color: beige;
+    border-radius: 1rem;
+}
+.main-div {
+    flex-direction: column;
+    background-color: rgb(255, 153, 204);
 }
 .main-div {
     width: 70%;
 }
 .game-board-div {
-    width: 80%
-}
-.main-div {
-    flex-direction: column;
+    width: 80%;
+    border: 0.3rem solid rgb(255, 153, 204);
 }
 .game-board-div {
     display: inline-flex;
 }
 .options-div {
-    width: 50%;
+    width: 70%;
     height: auto;
     display: flex;
     justify-content: space-between;
     margin: auto;
-    background-color: antiquewhite;
 }
 .button-start {
-    width: 6.25rem;
-    height: 6.25rem;
-    background-color: aqua;
+    width: 10rem;
+    height: 5rem;
+    background-color: rgb(255, 255, 255);
+    border-radius: 1rem;
+    border:rgb(255, 255, 255);
     margin: auto;
     font-family: "Allura", serif;
+    font-weight: bold;
     font-size: 2rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     cursor: pointer;
 }
 .button-start:hover {
-    background-color: blueviolet;
+    color: rgb(255, 0, 127);
+    transform: scale(1.05);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
 }
 .dropdown-div {
-    width: 6.25rem;
-    height: 6.25rem;
+    width: 10rem;
+    height: auto;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: aqua;
-    margin: auto;
+    margin: 2rem auto;
+    color: rgb(255, 255, 255);
     font-family: "Allura", serif;
     font-size: 2rem;
 }
@@ -92,20 +100,21 @@ body {
     width: 70%;
     height: auto;
     margin: auto;
-    margin-top: 70px;
-    margin-bottom: 10px;
+    margin-top: 4rem;
+    margin-bottom: 2rem;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 15px;
-    background-color: antiquewhite;
+    gap: 1rem;
+    background-color: rgb(255, 153, 204);
 }
 .symbol-button,
 .symbol-button-gameboard {
     width: 3.125rem;
     height: 3.125rem;
-    background-color: aqua;
-    border: 2px solid transparent; 
+    background-color: rgb(255, 255, 255);
+    border-radius: 1rem;
+    border-color: transparent;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 2rem;
 }
@@ -115,20 +124,21 @@ body {
 .symbol-button-gameboard {
     cursor: pointer;
 }
-.symbol-button-gameboard:disabled:hover {
-    border-color: transparent;
-    box-shadow: none;
-    cursor: not-allowed;
-}
 .symbol-button-gameboard-keydown,
 .symbol-button-gameboard:hover {
-    border-color: blueviolet;
-    box-shadow: 0 0 0.5em blueviolet;
+    color: rgb(255, 0, 127);
+    box-shadow: 0 0 0.5em rgb(255, 255, 255);
+    border: 0.125rem solid transparent;
+}
+.symbol-button-gameboard:disabled:hover {
+    box-shadow: none;
+    cursor: not-allowed;
+    color: rgb(183, 183, 183);
 }
 .symbol-highlited {
-    box-shadow: 0 0 0.5em rgb(206, 111, 8);
-    border-color: rgb(206, 111, 8);
-    color: black;
+    box-shadow: 0 0 0.5em rgb(153, 0, 76);
+    border-color: rgb(153, 0, 76);
+    color: rgb(153, 0, 76);
     cursor: not-allowed;
 }
 /* Starting game */
@@ -147,23 +157,38 @@ body {
     height: auto;
     margin: auto;
     font-family: "Allura", serif;
-    font-size: 2rem;
+    font-size: 3rem;
 }
-.again-message-div {
-    width: auto;
+.again-message-div,
+.won-message-div,
+.lost-div,
+.won-div {
     height: auto; 
     position: absolute;
     padding: 1.25rem;
-    background-color: aqua;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 1.5rem;
+    border: 0.3rem solid rgb(255, 153, 204);
+    border-radius: 1rem;
+    background-color: rgb(255, 255, 255);
+    font-family: "Allura", serif;
+    color: rgb(0, 0, 0);
+    font-size: 2rem;
     top: 10%;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1;
     display: none;
 }
+.again-message-div {
+    width: 25%;
+}
+.won-message-div {
+    width: 20%;
+}
 .lost-div {
+    width: 30%;
+}
+/*.lost-div,
+.won-div {
     width: 40%;
     height: auto;
     padding: 2rem;
@@ -171,88 +196,98 @@ body {
     gap: 3rem;
     justify-content: center;
     margin: auto;
-    background-color: beige;
-    display: none;
+    border: 0.3rem solid rgb(255, 153, 204);
+    border-radius: 1rem;
+    background-color: rgb(255, 255, 255);
+    display: flex;
 }
-.lost-message {
+.lost-message,
+.won-message {
     width: auto;
     height: auto;
     text-align: center;
-    font-size: 2rem;
-    font-family: Arial, Helvetica, sans-serif;
-}
+    font-size: 3rem;
+    font-family: "Allura", serif;
+}*/
 .cancel-button {
     position: absolute;
     right: 0.5rem;
-    top: 15%;
+    top: 25%;
     transform: translateY(-50%);
     font-size: 1.2rem;
     cursor: pointer;
-    color: white;
+    color: transparent;
     border: none;
     background-color: transparent;
 }
 .cancel-button i {
-    color: #333;
+    color: rgb(64, 64, 64);
     transition: color 0.3s;
 }
 
 .cancel-button:hover i {
-    color: red;
+    color: rgb(153, 0, 76);
 }
 .game-board {
-    width: 60%;
+    width: 80%;
     height: auto;
     margin: 0;
+    padding: 0.1rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 30px;
-    background-color: aquamarine;
+    background-color: rgb(255, 153, 204);
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
 }
 .game-board-keyboard {
     width: 100%;
     height: auto;
     margin: 0;
     margin-top: 0;
-    margin-bottom: 10px;
+    margin-bottom: 0.625rem;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 15px;
-    background-color: antiquewhite;
+    gap: 1rem;
+    background-color: rgb(255, 153, 204);
 }
-.cloned-keyboard {
-    width: 100%;
-    height: auto;
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-    background-color: antiquewhite;
-}
+
+.button-new-game2,
+.button-next,
 .button-repeat,
-.button-new-game,
-.button-next {
-    width: 10rem;
-    height: 3rem;
+.button-new-game {
+    width: 12rem;
+    height: 3.5rem;
     margin: auto;
+    background-color: rgb(255, 153, 204);
+    color: black;
+    border-radius: 1rem;
+    border: 0.07rem solid rgb(255, 153, 204);
     font-family: Arial, Helvetica, sans-serif;
     font-size: 1.2rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     cursor: pointer;
 }
 .button-repeat:hover,
 .button-new-game:hover,
 .button-next:hover {
-    background-color: blue;
+    background-color: white;
+    color: rgb(255, 0, 127);
+    border: 0.07rem solid rgb(255, 0, 127);
+    transform: scale(1.05);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
 }
 .button-repeat:disabled,
 .button-new-game:disabled {
-    background-color: grey;
+    background-color: white;
     color: grey;
-    border-color: grey;
+    border: 0.07rem solid grey;
+    transform: none;
+    box-shadow: none;
     cursor: not-allowed;
 }
 .player-input {
@@ -270,24 +305,25 @@ body {
     margin: 0.625rem;
     margin-bottom: 0;
     display: inline-flex;
-    justify-content: space-between;
     gap: 15px;
 }
 .type-field {
-    width: 3.125rem;
-    height: 3.125rem;
+    width: 3.5rem;
+    height: 3.5rem;
     background-color: white;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 2rem;
+    border-radius: 1rem;
+    font-family: "Allura", serif;
+    font-size: 2.5rem;
+    font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 .wrong-input {
-    background-color: #ffcccc;
+    background-color: rgb(255, 153, 153);
     box-shadow: 0 0 0.5em red;
 }
 .correct-input {
-    background-color: #9aec77;
+    background-color: rgb(153, 255, 153);
     box-shadow: 0 0 0.5em green;
 }
