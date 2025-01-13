@@ -18,6 +18,7 @@ body {
     justify-content: center;
     gap: 2rem;
     margin-top: 2rem;
+    background-color: rgb(255, 153, 204);
 }
 
 /* Initial game screen */
@@ -35,11 +36,12 @@ body {
     background-color: rgb(255, 153, 204);
 }
 .main-div {
-    width: 70%;
+    width: 90%;
 }
 .game-board-div {
     width: 90%;
     border: 0.3rem solid rgb(255, 153, 204);
+    gap: 5rem;
 }
 .game-board-div {
     display: inline-flex;
@@ -148,10 +150,13 @@ body {
     width: 40%;
     height: auto;
     margin: 0.625rem 0;
+    padding: 2rem 0.5rem;
     display: flex;
     justify-content: center;
     flex-direction: column;
     gap: 3.125rem;
+    background-color: rgb(255, 255, 255);
+    border-radius: 1rem;
 }
 .level-indicator,
 .round-indicator {
@@ -168,13 +173,13 @@ body {
     height: auto; 
     position: absolute;
     padding: 1.25rem;
-    border: 0.3rem solid rgb(255, 153, 204);
+    border: 0.3rem solid rgb(153, 0, 76);
     border-radius: 1rem;
     background-color: rgb(255, 255, 255);
     font-family: "Allura", serif;
     color: rgb(0, 0, 0);
     font-size: 2rem;
-    top: 20%;
+    top: 15%;
     left: 50%;
     transform: translate(-50%, -50%) rotateX(10deg);
     z-index: 1;
@@ -245,7 +250,7 @@ body {
     height: 3.5rem;
     margin: auto;
     background-color: rgb(255, 153, 204);
-    color: black;
+    color: rgb(0, 0, 0);
     border-radius: 1rem;
     border: 0.07rem solid rgb(255, 153, 204);
     font-family: Arial, Helvetica, sans-serif;
@@ -273,12 +278,13 @@ body {
     cursor: not-allowed;
 }
 .player-input {
-    width: 70%;
+    width: auto;
     text-align: center;
     height: 3rem;
     margin: auto;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 2rem;
+    border-radius: 1rem;
 }
 .type-field-div {
     width: auto;
@@ -319,6 +325,9 @@ body {
 
 
 @media screen and (max-width: 1100px) {
+    .game-board-div {
+        gap: 5rem;
+    }
     .game-board {
         width: 75%;
         margin: 0;
@@ -327,18 +336,12 @@ body {
     .player-input {
         font-size: 1.2rem;
     }
-    .symbol-button,
-    .symbol-button-gameboard {
-        width: 3rem;
-        height: 3rem;
-    }
-    .type-field {
-        width: 3rem;
-        height: 3rem;
-    }
 }
 
 @media screen and (max-width: 1000px) {
+    body {
+        margin-top: 0.5rem;
+    }
     .game-board-div {
         height: auto;
         display: flex;
@@ -346,7 +349,7 @@ body {
         justify-content: center;
         margin: auto;
         border-radius: 1rem;
-        gap: 1.5rem;
+        gap: 2rem;
     }
     .game-board {
         width: 100%;
@@ -376,7 +379,7 @@ body {
         gap: 0.7rem;
     }
     .type-field {
-        font-size: 2.0rem;
+        font-size: 2rem;
     }
     .level-indicator,
     .round-indicator {
@@ -390,14 +393,18 @@ body {
         font-size: 0.7rem;
         font-weight: bold;
     }
+    .symbol-button-gameboard {
+        width: 3rem;
+        height: 3rem;
+    }
+    .again-message-div,
+    .won-message-div,
+    .lost-div,
+    .won-div {
+        top: 13%;
+    }
 }
 @media screen and (max-width: 768px) {
-    .button-start {
-        width: 7rem;
-        height: 4rem;
-        font-weight: bold;
-        font-size: 1.5rem;
-    }
     .game-options-div {
         display: flex;
         flex-wrap: wrap;
@@ -420,44 +427,25 @@ body {
         font-size: 0.8rem;
     }
     .game-board-keyboard {
-        gap: 0.5rem;
+        gap: 0.8rem;
     }
     .again-message-div,
     .won-message-div,
     .lost-div,
     .won-div {
+        width: 50%;
+        top: 50%;
         font-size: 1.7rem;
     }
 }
 @media screen and (max-width: 600px) {
-    .symbol-button,
-    .symbol-button-gameboard {
-        width: 2.8rem;
-        height: 2.8rem;
-    }
-    .type-field {
-        width: 2.3rem;
-        height: 2.3rem;
+    .keyboard {
+        width: 100%;
     }
 }
 @media screen and (max-width: 560px) {
-    .dropdown-div {
-        width: 7rem;
-    }
-    .dropdown {
-        width: 80%;
-    }
-    .dropdown-div {
-        width: 7rem;
-        font-size: 1.5rem;
-    }
-    .select {
-        width: 80%;
-        font-size: 1rem;
-    }
-    .player-input {
-        width: 40%;
-        font-size: 0.7rem;
+    .options-div {
+        flex-direction: column;
     }
     .again-message-div,
     .won-message-div,
@@ -468,12 +456,6 @@ body {
     }
 }
 @media screen and (max-width: 450px) {
-    .again-message-div,
-    .won-message-div,
-    .lost-div,
-    .won-div {
-        font-size: 1.3rem;
-    }
     .cancel-button {
         font-size: 1rem;
     }
@@ -486,6 +468,14 @@ body {
     }
 }
 @media screen and (max-width: 360px) {
+    .keyboard {
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+    .symbol-button-gameboard {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
     .player-input {
         width: 35%;
         font-size: 0.7rem;
@@ -494,7 +484,7 @@ body {
     .won-message-div,
     .lost-div,
     .won-div {
-        font-size: 1.3rem;
+        width: 50%;
+        font-size: 1.7rem;
     }
 }
-

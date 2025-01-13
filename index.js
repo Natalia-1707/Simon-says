@@ -4,6 +4,11 @@ fontLink.rel = 'stylesheet';
 fontLink.href = 'https://fonts.googleapis.com/css2?family=Allura&family=Jost:ital,wght@0,100..900;1,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playwrite+AU+SA:wght@100..400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap';
 document.head.appendChild(fontLink);
 
+let fontAwesomeLink = document.createElement('link');
+fontAwesomeLink.rel = 'stylesheet';
+fontAwesomeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css';
+document.head.appendChild(fontAwesomeLink);
+
 // favicon //
 let faviconLink = document.createElement('link');
 faviconLink.rel = 'shortcut icon';
@@ -101,6 +106,13 @@ clickMusic.setAttribute('controls', 'none');
 clickMusic.style.display = 'none';
 document.body.appendChild(clickMusic);
 
+let clickWrong = document.createElement('audio');
+clickWrong.src = 'music/wrongclick.mp3';
+clickWrong.setAttribute('preload', 'auto');
+clickWrong.setAttribute('controls', 'none');
+clickWrong.style.display = 'none';
+document.body.appendChild(clickWrong);
+
 let nextRoundMusic = document.createElement('audio');
 nextRoundMusic.src = 'music/nextround.mp3';
 nextRoundMusic.setAttribute('preload', 'auto');
@@ -109,11 +121,25 @@ nextRoundMusic.style.display = 'none';
 document.body.appendChild(nextRoundMusic);
 
 function playClick() {
+    if (!clickMusic.paused) {
+        clickMusic.pause();
+        clickMusic.currentTime = 0;
+    }
+    clickMusic.play().catch(error => console.error('Error playing click sound:', error));
+}
+
+function stopClick() {
     clickMusic.pause();
     clickMusic.currentTime = 0;
-    clickMusic.play()
 }
-function stopClick() {
+function playWrong() {
+    if (!clickWrong.paused) {
+        clickWrong.pause();
+        clickWrong.currentTime = 0;
+    }
+    clickWrong.play().catch(error => console.error('Error playing wrong sound:', error));
+}
+function stopWrong() {
     clickMusic.pause();
     clickMusic.currentTime = 0;
 }
@@ -264,7 +290,6 @@ function updateGameBoardKeyboard(level) {
         gameBoardSymbolBtn.push(symbolBtn);
         gameBoardKeyboard.append(symbolBtn);
         symbolBtn.addEventListener('click', () => {
-            playClick();
             virtualKeyboardInput(symbol)
         });
     })
@@ -317,6 +342,7 @@ function virtualKeyboardInput(symbol) {
         allPlayerTypings.push(symbol);
         playerInput.value = allPlayerTypings.join(' ');
         if (symbol === symbolsToPrint[playerTyping.length]) {
+            playClick();
             currentField.textContent = symbol;
             playerTyping.push(symbol);
             currentField.classList.add('correct-input');
@@ -324,9 +350,9 @@ function virtualKeyboardInput(symbol) {
                 currentField.classList.remove('correct-input');
             }, 500);
         } else {
+            playWrong();
             currentField.textContent = symbol;
             incorrectAttempts++;
-            console.log('Incorrect Attempts', incorrectAttempts);
         
             if (incorrectAttempts >= 2) {
                 currentField.textContent = symbol;
@@ -379,18 +405,13 @@ function physicalKeyboardInput(event) {
         return;
     }
     let symbol = String(event.key);
-    console.log(typeof symbol)
 
     if (event.key >= '0' && event.key <= '9') {
         symbol = Number(event.key);
     } else {
         symbol = event.key.toUpperCase();
     }
-
-    console.log(symbol);
-    console.log('allowedSymbols', allowedSymbols);
     if (allowedSymbols.includes(symbol)) {
-        playClick();
         virtualKeyboardInput(symbol);
         let symbolBtn = Array.from(document.querySelectorAll('.symbol-button-gameboard')).find(button => {
             let buttonValue = button.textContent.trim();
@@ -453,6 +474,7 @@ function checkSymbols() {
                     button.disabled = true;
                 });
                 playNextRound();
+                messageTryAgain.style.display = 'none';
                 messageWon.style.display = 'block';
                 repeatBtn.replaceWith(nextBtn);
             }
@@ -517,7 +539,6 @@ function generateSymbols(level) {
     if (level === 'Hard') {
         symbols = hardSymbols;
     }
-    console.log(symbols);
     let sequence = [];
     let typeFieldsCount = initialTypeFields + (currentRound - 1) * typeFieldsIncrement;
     for(let i = 0; i < typeFieldsCount; i++) {
@@ -556,7 +577,6 @@ function simulatingTyping(sequence) {
 
 function symbolsHighlited(symbol) {
     let symbolBtns = document.querySelectorAll('.symbol-button-gameboard');
-    console.log(symbolBtns);
     symbolBtns.forEach((button) => {
         button.classList.remove('symbol-highlited');
     });
