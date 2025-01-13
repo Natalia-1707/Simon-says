@@ -360,6 +360,9 @@ function virtualKeyboardInput(symbol) {
                 setTimeout(() => {
                     lostDiv.style.display = 'flex';
                     repeatBtn.disabled = true;
+                    gameBoardSymbolBtn.forEach(button => {
+                        button.disabled = true;
+                    });
                 }, 100);
                 return;
             }

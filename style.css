@@ -310,10 +310,6 @@ body {
     background-color: rgb(255, 153, 153);
     box-shadow: 0 0 0.5em red;
 }
-.correct-input {
-    background-color: rgb(153, 255, 153);
-    box-shadow: 0 0 0.5em green;
-}
 
 /* MEDIA */
 
@@ -362,6 +358,7 @@ body {
         width: 100%;
         height: auto;
         margin: 0.625rem 0;
+        padding: 0.3rem;
         display: flex;
         flex-wrap: wrap;
         flex-direction: row;
@@ -440,6 +437,7 @@ body {
 }
 @media screen and (max-width: 600px) {
     .keyboard {
+        margin-top: 0;
         width: 100%;
     }
 }
@@ -469,7 +467,7 @@ body {
 }
 @media screen and (max-width: 360px) {
     .keyboard {
-        margin-top: 0.5rem;
+        margin-top: 0;
         margin-bottom: 0.5rem;
     }
     .symbol-button-gameboard {
