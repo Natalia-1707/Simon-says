@@ -608,6 +608,14 @@ function startNewGame() {
     repeatBtnClicks = 0;
     allPlayerTypings = [];
     playerInput.value = '';
+
+    let nextBtnOnPage = document.querySelector('.button-next');
+    if (nextBtnOnPage) {
+        nextBtnOnPage.replaceWith(repeatBtn);
+    }
+    repeatBtn.disabled = true;
+    repeatBtn.textContent = 'Repeat the sequence';
+
 }
 
 let repeatBtnClicks = 0;
